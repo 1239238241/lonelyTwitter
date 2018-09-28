@@ -1,43 +1,48 @@
 package ca.ualberta.cs.lonelytwitter;
-import java.util.ArrayList;
+
 import java.util.Date;
 
-public abstract class Tweet implements Tweetable{
+public abstract class Tweet {
+    protected String message;
+    protected Date date;
+    //private Date date;
+    //private String message;
+    //private static final Integer MAX_CHARS = 140;
 
-    public Date date2; //every body could access
-    private Date date; //only this class has acces to this date
-    private String message, a_mood;
-    public ArrayList tweetMoodsList;
-    public AbstractBaseMood the_mood;
-    private static final Integer MAX_INTEGER = 140;
+    //Empty argument constructor with default values
+    //Tweet() {
+        //Must use the 'this' keyword in order to specify the current object message = message does nothing!
+      //  this.date = new Date();
+        //this.message = "I am default message schwa!";
+    //}
 
-    Tweet() {
-        this.date = new Date();
-        this.tweetMoodsList = new ArrayList<String>();
-        this.message = "I am a default message";
+    //Overloading: so that we can specify the tweet content
+    //Tweet(String message) {
+     //   this.date = new Date();
+       // this.message = message;
+    //}
 
-    }
 
-    Tweet(String message){
-        this.date = new Date();
-        this.message = message; // Tweet myTweet = new Tweet('adasdasd');
-
-    }
-    public Date getDate() {return  this.date;}
-    public String getMessage() {return  this.message;}
     public void setMessage(String message) throws TweetTooLongException {
-        if (message.length() <= this.MAX_INTEGER){
-            this.message = message;
-        }else{
+        if (message.length()>140){
             throw new TweetTooLongException();
         }
-    }
-    public void getMood(){
-        a_mood = the_mood.returnMood();
-        tweetMoodsList.add(a_mood);
+        this.message = message;
     }
 
-    public abstract Boolean IsImportant();
+    public void setDate(Date date){
+        this.date = date;
+    }
+    public String getMessage() {
+        return this.message;
+    }
 
+    public Date getDate() { return this.date; }
 
+    //No method body implemented! We leave that up to the subclasses (they MUST implement it)
+    public abstract Boolean isImportant();
+
+    public String toString(){
+        return this.date.toString()+" | " + this.message;
+    }
 }
